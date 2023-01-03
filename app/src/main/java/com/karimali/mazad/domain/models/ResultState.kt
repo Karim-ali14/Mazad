@@ -1,4 +1,4 @@
-package com.shawky.zimozitennisapptask.domain.models
+package com.karimali.mazad.domain.models
 
 sealed class ResultState<out T> {
 
