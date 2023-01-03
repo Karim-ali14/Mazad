@@ -14,4 +14,8 @@ object Constants {
     object Keys {
         const val PLAYER_KAY = "PlayerKey"
     }
+
+    object RequestCodes {
+        const val SUCCESS = "200"
+    }
 }
