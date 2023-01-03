@@ -3,11 +3,12 @@ package com.karimali.mazad.common.utils
 object Constants {
 
     object Links {
-        const val BASE_URL = "https://demonuts.com/Demonuts/JsonTest/Tennis/"
+        const val BASE_URL = " https://staging.mazaady.com/"
     }
 
     object Routs {
-        const val GET_TENNIS_PLAYER = "json_parsing.php"
+        const val GET_ALL_CATEGORIES = "api/get_all_cats"
+        const val GET_ALL_SUB_CATEGORIES = "api/properties"
     }
 
     object Keys {
