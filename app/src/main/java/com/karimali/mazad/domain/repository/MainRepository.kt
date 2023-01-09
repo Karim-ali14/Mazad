@@ -7,8 +7,8 @@ import retrofit2.http.Query
 
 interface MainRepository {
 
-    suspend fun fetchAllCategories() :ResponseModel<CategoryModel>
+    suspend fun fetchAllCategories() :ResponseModel<CategoryModel>? = null
 
-    suspend fun fetchSubCategoriesByCatId(categoryId: String) :ResponseModel<ArrayList<SubCategoryModel>>
+    suspend fun fetchSubCategoriesByCatId(categoryId: String) :ResponseModel<ArrayList<SubCategoryModel>>? = null
 
 }
