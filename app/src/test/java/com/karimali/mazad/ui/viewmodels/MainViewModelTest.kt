@@ -1,6 +1,7 @@
 package com.karimali.mazad.ui.viewmodels
 
 import com.examl.androidtesk.data.model.ResponseModel
+import com.karimali.mazad.domain.models.category.Category
 import com.karimali.mazad.domain.models.category.CategoryModel
 import com.karimali.mazad.domain.repository.MainRepository
 import com.karimali.mazad.domain.useCase.CategoryUseCase
@@ -27,14 +28,16 @@ class MainViewModelTest {
 
 
     @Test
-    fun `getAllCategory() return list of Categories`() {
+    fun `getAllCategory() return Categories`() {
         // Arrange
         val fakeMainRepositoryImp = object : MainRepository {
             override suspend fun fetchAllCategories(): ResponseModel<CategoryModel>? {
                 return ResponseModel(
-                    data = CategoryModel(),
+                    data = CategoryModel(
+                        categories = listOf(Category())
+                    ),
                     msg = "",
-                    code = "0"
+                    code = "200"
                 )
             }
         }
@@ -45,5 +48,15 @@ class MainViewModelTest {
                 dispatcherSwitcher = Dispatchers.Unconfined
             )
         )
+
+        // Act
+        val result = mainViewModel.getAllCategory()
+
+        // expected
+        val expected = CategoryModel(
+            categories = listOf(Category())
+        )
+
+        assertEquals(expected , result)
     }
 }

@@ -20,12 +20,12 @@ class MainViewModel @Inject constructor(
     private val categoryUseCase: CategoryUseCase
 ):ViewModel() {
 
-    private val _category: MutableStateFlow<ResultState<CategoryModel>> = MutableStateFlow(ResultState.Loading)
+    private val _category: MutableStateFlow<ResultState<CategoryModel?>> = MutableStateFlow(ResultState.Loading)
 
     private val _subCategory:MutableStateFlow<ResultState<ArrayList<SubCategoryModel>>> = MutableStateFlow(ResultState.Loading)
 
     //    val category = _category
-    fun getAllCategory(): MutableStateFlow<ResultState<CategoryModel>>{
+    fun getAllCategory(): MutableStateFlow<ResultState<CategoryModel?>>{
         viewModelScope.launch {
             _category.emit(ResultState.Loading)
             categoryUseCase.fetchAllCategories().collect {

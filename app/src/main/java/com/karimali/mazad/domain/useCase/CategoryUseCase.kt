@@ -24,6 +24,8 @@ class CategoryUseCase @Inject constructor(
 
     suspend fun fetchAllCategories() : MutableStateFlow<ResultState<CategoryModel>>{
         performNetworkOp(
+            dispatcherOn = dispatcherOn,
+            dispatcherSwitcher = dispatcherSwitcher,
             networkCall = { mainRepository.fetchAllCategories() } ,
             onData = {
                 category.emit(
