@@ -1,29 +1,28 @@
 package com.shawky.zimozitennisapptask.domain.helpers
 
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.coroutineScope
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 abstract class NetworkCallHandler {
 
     suspend fun <T> performNetworkOp(
         networkCall: suspend () -> T,
         onData: suspend (T) -> Unit,
-        onError: suspend (Exception?) -> Unit
+        onError: suspend (Exception?) -> Unit,
+        dispatcherOn: CoroutineDispatcher = Dispatchers.IO,
+        dispatcherSwitcher: CoroutineDispatcher = Dispatchers.Main
     ) {
         try {
             coroutineScope {
 
-                val data = async(Dispatchers.IO) {
+                val data = async(dispatcherOn) {
                     networkCall()
                 }
-                withContext(Dispatchers.Main) {
+                withContext(dispatcherSwitcher) {
                     onData(data.await())
                 }
             }
         } catch (e: Exception) {
-            withContext(Dispatchers.Main) {
+            withContext(dispatcherSwitcher) {
                 e.printStackTrace()
                 onError(e)
             }
