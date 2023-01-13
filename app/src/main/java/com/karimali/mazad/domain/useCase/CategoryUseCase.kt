@@ -18,11 +18,11 @@ class CategoryUseCase @Inject constructor(
     @MainDispatcher private val dispatcherSwitcher: CoroutineDispatcher,
 ):NetworkCallHandler(){
 
-    private val category:MutableStateFlow<ResultState<CategoryModel>> = MutableStateFlow(ResultState.Loading)
+    private val category:MutableStateFlow<ResultState<CategoryModel?>> = MutableStateFlow(ResultState.Loading)
 
     private val subCategory:MutableStateFlow<ResultState<ArrayList<SubCategoryModel>>> = MutableStateFlow(ResultState.Loading)
 
-    suspend fun fetchAllCategories() : MutableStateFlow<ResultState<CategoryModel>>{
+    suspend fun fetchAllCategories() : MutableStateFlow<ResultState<CategoryModel?>>{
         performNetworkOp(
             dispatcherOn = dispatcherOn,
             dispatcherSwitcher = dispatcherSwitcher,
@@ -31,7 +31,10 @@ class CategoryUseCase @Inject constructor(
                 category.emit(
                     when (it?.code) {
                         SUCCESS -> {
-                            ResultState.Success(it.data,it.msg)
+                            if (it.data == null)
+                                ResultState.EmptyData("")
+                            else
+                                ResultState.Success(it.data)
                         }
                         else -> {
                             ResultState.Error("Something wrong")
