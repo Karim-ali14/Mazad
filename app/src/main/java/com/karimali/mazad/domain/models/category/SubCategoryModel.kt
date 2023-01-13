@@ -1,5 +1,7 @@
 package com.karimali.mazad.domain.models.category
 
+typealias SubCategories = ArrayList<SubCategoryModel>
+
 data class SubCategoryModel(
     val description: String? = null,
     val id: Int? = null,

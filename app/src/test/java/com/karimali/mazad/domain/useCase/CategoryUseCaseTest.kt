@@ -5,7 +5,7 @@ import com.karimali.mazad.domain.models.ResultState
 import com.karimali.mazad.domain.models.category.Category
 import com.karimali.mazad.domain.models.category.CategoryModel
 import com.karimali.mazad.domain.repository.MainRepository
-import com.karimali.mazad.ui.viewmodels.MainDispatcherRule
+import com.karimali.mazad.rules.MainDispatcherRule
 import kotlinx.coroutines.*
 import kotlinx.coroutines.test.*
 import org.junit.Assert.*

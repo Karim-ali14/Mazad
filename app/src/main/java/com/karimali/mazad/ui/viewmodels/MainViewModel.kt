@@ -9,6 +9,7 @@ import com.karimali.mazad.domain.models.ResultState
 import com.karimali.mazad.domain.models.category.CategoryModel
 import com.karimali.mazad.domain.models.category.SubCategoryModel
 import com.karimali.mazad.domain.useCase.CategoryUseCase
+import com.karimali.mazad.domain.useCase.SubCategoryUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +18,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
-    private val categoryUseCase: CategoryUseCase
+    private val categoryUseCase: CategoryUseCase,
+    private val subCategoryUseCase: SubCategoryUseCase
 ):ViewModel() {
 
     private val _category: MutableStateFlow<ResultState<CategoryModel?>> = MutableStateFlow(ResultState.Loading)
@@ -39,7 +41,7 @@ class MainViewModel @Inject constructor(
     fun getSubCategory(catId:String): MutableStateFlow<ResultState<ArrayList<SubCategoryModel>>>{
         viewModelScope.launch {
             _subCategory.emit(ResultState.Loading)
-            categoryUseCase.fetchAllSubCategories(catId).collect {
+            subCategoryUseCase.fetchAllSubCategoryByCatId(catId).collect {
                 Log.i("DataFlow", "Result -- > $it")
                 _subCategory.emit(it)
             }

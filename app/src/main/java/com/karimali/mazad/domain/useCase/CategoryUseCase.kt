@@ -7,7 +7,8 @@ import com.karimali.mazad.domain.models.ResultState
 import com.karimali.mazad.domain.models.category.CategoryModel
 import com.karimali.mazad.domain.models.category.SubCategoryModel
 import com.karimali.mazad.domain.repository.MainRepository
-import com.shawky.zimozitennisapptask.domain.helpers.NetworkCallHandler
+import com.karimali.mazad.domain.helpers.NetworkCallHandler
+import com.karimali.mazad.domain.models.category.SubCategories
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import javax.inject.Inject
@@ -16,7 +17,7 @@ class CategoryUseCase @Inject constructor(
     private val mainRepository: MainRepository,
     @IODispatcher private val dispatcherOn: CoroutineDispatcher,
     @MainDispatcher private val dispatcherSwitcher: CoroutineDispatcher,
-):NetworkCallHandler(){
+): NetworkCallHandler(){
 
     private val category:MutableStateFlow<ResultState<CategoryModel?>> = MutableStateFlow(ResultState.Loading)
 
@@ -47,25 +48,6 @@ class CategoryUseCase @Inject constructor(
             }
         )
         return category
-    }
-
-    suspend fun fetchAllSubCategories(catId:String) : MutableStateFlow<ResultState<ArrayList<SubCategoryModel>>>{
-        performNetworkOp(
-            networkCall = { mainRepository.fetchSubCategoriesByCatId(catId) } ,
-            onData = {
-                subCategory.emit( when {
-                    it?.code == SUCCESS  && it.data.isNotEmpty() -> {
-                        ResultState.Success(it.data,it.msg)
-                    }else -> {
-                        ResultState.Error("Something wrong")
-                    }
-                })
-            },
-            onError = {
-
-            }
-        )
-        return subCategory
     }
 
 }
